@@ -1,5 +1,5 @@
-import 'package:campo/models/explosion_exception.dart';
 import 'package:flutter/foundation.dart';
+import 'package:mine_sweeper/models/explosion_exception.dart';
 
 class Field {
   Field({
@@ -11,17 +11,28 @@ class Field {
   final int col;
   final List<Field> neighborFields = [];
 
-  static bool _isOpen = false;
-  static bool _hasFlag = false;
-  static bool _hasBomb = false;
-  static bool _exploded = false;
+  bool _isOpen = false;
+  bool _hasFlag = false;
+  bool _hasBomb = false;
+  bool _exploded = false;
 
-  bool get isOpen => _isOpen;
-  bool get hasFlag => _hasFlag;
-  bool get hasBomb => _hasBomb;
-  bool get exploded => _exploded;
+  bool get isOpen {
+    return _isOpen;
+  }
 
-  bool get done {
+  bool get hasFlag {
+    return _hasFlag;
+  }
+
+  bool get hasBomb {
+    return _hasBomb;
+  }
+
+  bool get exploded {
+    return _exploded;
+  }
+
+  bool get resolved {
     bool bombIsMarked = hasBomb && hasFlag;
     bool openedSafeField = !hasBomb && isOpen;
 
@@ -78,8 +89,9 @@ class Field {
   }
 
   // add bomb to this field
-  void addBomb() {
+  Field addBomb() {
     _hasBomb = true;
+    return this;
   }
 
   // show this field's bomb (if has any)
