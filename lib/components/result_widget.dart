@@ -4,6 +4,8 @@ class ResultWidget extends StatelessWidget implements PreferredSizeWidget {
   final bool win;
   final Function onReset;
 
+  bool _hover = false;
+
   ResultWidget({
     @required this.win,
     @required this.onReset,
@@ -20,6 +22,9 @@ class ResultWidget extends StatelessWidget implements PreferredSizeWidget {
   }
 
   IconData _getIcon() {
+    if (_hover) {
+      return Icons.sentiment_neutral;
+    }
     if (win == null) {
       return Icons.sentiment_satisfied;
     } else if (win) {
@@ -38,18 +43,64 @@ class ResultWidget extends StatelessWidget implements PreferredSizeWidget {
           padding: EdgeInsets.all(10),
           child: CircleAvatar(
             backgroundColor: _getCor(),
-            child: IconButton(
-              padding: EdgeInsets.all(0),
-              icon: Icon(
-                _getIcon(),
-                color: Colors.black,
-                size: 35,
+            child: InkWell(
+              child: IconButton(
+                padding: EdgeInsets.all(0),
+                icon: Icon(
+                  _getIcon(),
+                  color: Colors.black,
+                  size: 35,
+                ),
+                onPressed: () {
+                  confirmRestartDialog(context, win);
+                },
               ),
-              onPressed: onReset,
+              onHover: (b) => {},
             ),
           ),
         ),
       ),
+    );
+  }
+
+  confirmRestartDialog(BuildContext context, bool win) {
+    // set up the buttons
+    Widget cancelButton = FlatButton(
+      child: Text("Cancel"),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+    Widget restartButton = FlatButton(
+        child: Text("Restart"),
+        onPressed: () {
+          Navigator.of(context).pop();
+          onReset();
+        });
+
+    Text _getText() {
+      if (win == null) {
+        return Text("Are you sure?\n\nYour actual progress will be lost!");
+      }
+      return null;
+    }
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text('Restart game'),
+      content: _getText(),
+      actions: [
+        cancelButton,
+        restartButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 
