@@ -21,7 +21,10 @@ class BoardWidget extends StatelessWidget {
         crossAxisCount: board.cols,
         children: board.fields.map((field) {
           return FieldWidget(
-              field: field, onOpen: onOpen, onToggleFlag: onToggleFlag);
+            field: field,
+            onOpen: onOpen,
+            onToggleFlag: onToggleFlag,
+          );
         }).toList(),
       ),
     );

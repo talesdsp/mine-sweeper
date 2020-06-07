@@ -48,14 +48,14 @@ class _MineSweeperAppState extends State<MineSweeperApp> {
 
   Board _getBoard(double width, double height) {
     if (_board == null) {
-      int cols = 15;
+      int cols = 11;
       double fieldSize = width / cols;
       int rows = (height / fieldSize).floor();
 
       _board = Board(
         rows: rows,
         cols: cols,
-        countBombs: 1,
+        countBombs: 30,
       );
     }
 
@@ -65,6 +65,13 @@ class _MineSweeperAppState extends State<MineSweeperApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+        primaryColor: Colors.blue,
+        buttonTheme: ButtonThemeData(
+          disabledColor: Colors.red[50],
+          splashColor: Colors.purple,
+        ),
+      ),
       home: Scaffold(
         backgroundColor: Colors.lightBlue[50],
         appBar: ResultWidget(win: _win, onReset: _reset),

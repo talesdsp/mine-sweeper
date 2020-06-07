@@ -71,7 +71,7 @@ class ResultWidget extends StatelessWidget implements PreferredSizeWidget {
         Navigator.of(context).pop();
       },
     );
-    Widget restartButton = FlatButton(
+    Widget restartButton = RaisedButton(
         child: Text("Restart"),
         onPressed: () {
           Navigator.of(context).pop();
