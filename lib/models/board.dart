@@ -8,7 +8,7 @@ class Board {
   Board({
     @required this.rows,
     @required this.cols,
-    @required this.countBombs,
+    @required this.difficulty,
   }) {
     _createFields();
     _createNeighborhood();
@@ -17,7 +17,7 @@ class Board {
 
   final int rows;
   final int cols;
-  final int countBombs;
+  final double difficulty;
   final List<Field> _fields = [];
 
   List<Field> get fields {
@@ -55,8 +55,9 @@ class Board {
 
   void _sortBombs() {
     int sorted = 0;
+    int countBombs = (rows * cols * (difficulty / 10)).floor();
 
-    if (countBombs > rows * cols) return;
+    if (difficulty == 0) return;
 
     while (sorted < countBombs) {
       int i = Random().nextInt(_fields.length);
