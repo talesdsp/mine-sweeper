@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:mine_sweeper/components/game_mode_widget.dart';
 
 class GameModeScreen extends StatelessWidget {
@@ -6,6 +7,8 @@ class GameModeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setEnabledSystemUIOverlays([]);
+
     return Scaffold(
       backgroundColor: Colors.blueAccent,
       body: Column(
