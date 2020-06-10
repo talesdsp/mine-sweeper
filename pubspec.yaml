@@ -70,7 +70,10 @@ flutter:
   fonts:
     - family: FredokaOne
       fonts:
-        - asset: assets/fonts/FredokaOne-Regular.ttf
+        - asset: assets/fonts/fredoka/FredokaOne-Regular.ttf
+    - family: Vt323
+      fonts:
+        - asset: assets/fonts/vt323/VT323-Regular.ttf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
