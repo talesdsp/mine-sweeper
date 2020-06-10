@@ -1,13 +1,18 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:mine_sweeper/components/board_widget.dart';
-import 'package:mine_sweeper/components/game_mode_widget.dart';
 import 'package:mine_sweeper/components/result_widget.dart';
+import 'package:mine_sweeper/config/size_config.dart';
 import 'package:mine_sweeper/models/board.dart';
 import 'package:mine_sweeper/models/explosion_exception.dart';
 import 'package:mine_sweeper/models/field.dart';
-import 'package:mine_sweeper/screens/score.dart';
+import 'package:mine_sweeper/screens/game_mode.dart';
+
+class MineSweeperArguments {
+  MineSweeperArguments({this.difficulty, this.color});
+
+  final double difficulty;
+  final Color color;
+}
 
 class MineSweeperScreen extends StatefulWidget {
   static const routeName = '/mine_sweeper';
@@ -19,24 +24,13 @@ class MineSweeperScreen extends StatefulWidget {
 class _MineSweeperScreenState extends State<MineSweeperScreen> {
   bool _win;
   Board _board;
+  int _time = 0;
 
   void _reset() {
     setState(() {
       _win = null;
       _board.restart();
-    });
-  }
-
-  void _seeResult() {
-    Timer(
-        Duration(
-          seconds: 5,
-        ), () {
-      Navigator.pushNamed(
-        context,
-        ResultScreen.routeName,
-        arguments: GameModeArguments(),
-      );
+      _time = 0;
     });
   }
 
@@ -47,7 +41,6 @@ class _MineSweeperScreenState extends State<MineSweeperScreen> {
         field.open();
         if (_board.resolved) {
           _win = true;
-          _seeResult();
         }
       } on ExplosionException {
         _win = false;
@@ -62,18 +55,19 @@ class _MineSweeperScreenState extends State<MineSweeperScreen> {
       field.toggleFlag();
       if (_board.resolved) {
         _win = true;
-        _seeResult();
       }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final GameModeArguments args = ModalRoute.of(context).settings.arguments;
+    final MineSweeperArguments args = ModalRoute.of(context).settings.arguments;
+
+    SizeConfig().init(context);
 
     Board _getBoard(double width, double height) {
       if (_board == null) {
-        int cols = 11;
+        int cols = 9;
         double fieldSize = width / cols;
         int rows = (height / fieldSize).floor();
 
@@ -88,12 +82,38 @@ class _MineSweeperScreenState extends State<MineSweeperScreen> {
     }
 
     return Scaffold(
-      backgroundColor: Colors.lightBlue[50],
+      backgroundColor: Colors.lightBlue[100],
       appBar: ResultWidget(
         win: _win,
         onReset: _reset,
+        time: _time,
       ),
-      body: Container(
+      bottomNavigationBar: BottomAppBar(
+        color: Colors.blueAccent,
+        elevation: 10,
+        child: Container(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              IconButton(
+                icon: Icon(
+                  Icons.home,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    GameModeScreen.routeName,
+                    (route) => false,
+                  );
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+      body: Padding(
+        padding: EdgeInsets.all(SizeConfig.blockSizeHorizontal * 10),
         child: LayoutBuilder(
           builder: (ctx, constraints) {
             return BoardWidget(
