@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:mine_sweeper/components/board_widget.dart';
 import 'package:mine_sweeper/components/result_widget.dart';
@@ -25,6 +27,23 @@ class _MineSweeperScreenState extends State<MineSweeperScreen> {
   bool _win;
   Board _board;
   int _time = 0;
+
+  void initState() {
+    super.initState();
+
+    void _incrementTimer(Timer timer) {
+      if (_win != null) return timer.cancel();
+
+      setState(() {
+        _time += 1;
+      });
+    }
+
+    Timer.periodic(
+      Duration(seconds: 1),
+      _incrementTimer,
+    );
+  }
 
   void _reset() {
     setState(() {
