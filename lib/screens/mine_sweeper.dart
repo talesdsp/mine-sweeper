@@ -32,7 +32,7 @@ class _MineSweeperScreenState extends State<MineSweeperScreen> {
   void initState() {
     super.initState();
 
-    _time = CountUpTimer();
+    _time = CountUpTimer(min: 0, sec: 0);
 
     Timer.periodic(Duration(seconds: 1), (timer) {
       if (_win != null) return timer.cancel();
