@@ -1,6 +1,11 @@
 class CountUpTimer {
-  int _min = 0;
-  int _sec = 0;
+  CountUpTimer({int min, int sec}) {
+    _min = min;
+    _sec = sec;
+  }
+
+  int _min;
+  int _sec;
 
   String minute = '00';
   String second = '00';
