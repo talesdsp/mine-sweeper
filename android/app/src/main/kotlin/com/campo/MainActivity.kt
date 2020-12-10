@@ -1,4 +1,4 @@
-package com.campo
+package com.mine_sweeper
 
 import io.flutter.embedding.android.FlutterActivity
 
