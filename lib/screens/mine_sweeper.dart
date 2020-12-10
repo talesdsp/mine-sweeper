@@ -5,6 +5,7 @@ import 'package:mine_sweeper/components/board_widget.dart';
 import 'package:mine_sweeper/components/result_widget.dart';
 import 'package:mine_sweeper/config/size_config.dart';
 import 'package:mine_sweeper/models/board.dart';
+import 'package:mine_sweeper/models/count_up_timer.dart';
 import 'package:mine_sweeper/models/explosion_exception.dart';
 import 'package:mine_sweeper/models/field.dart';
 import 'package:mine_sweeper/screens/game_mode.dart';
@@ -26,30 +27,26 @@ class MineSweeperScreen extends StatefulWidget {
 class _MineSweeperScreenState extends State<MineSweeperScreen> {
   bool _win;
   Board _board;
-  int _time = 0;
+  CountUpTimer _time;
 
   void initState() {
     super.initState();
 
-    void _incrementTimer(Timer timer) {
+    _time = CountUpTimer();
+
+    Timer.periodic(Duration(seconds: 1), (timer) {
       if (_win != null) return timer.cancel();
 
       setState(() {
-        _time += 1;
+        _time.increment();
       });
-    }
-
-    Timer.periodic(
-      Duration(seconds: 1),
-      _incrementTimer,
-    );
+    });
   }
 
   void _reset() {
     setState(() {
       _win = null;
       _board.restart();
-      _time = 0;
     });
   }
 
