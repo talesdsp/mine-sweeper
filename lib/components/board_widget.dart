@@ -18,6 +18,7 @@ class BoardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: GridView.count(
+        physics: const NeverScrollableScrollPhysics(),
         crossAxisCount: board.cols,
         children: board.fields.map((field) {
           return FieldWidget(
