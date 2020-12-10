@@ -1,50 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:mine_sweeper/config/size_config.dart';
 import 'package:mine_sweeper/screens/mine_sweeper.dart';
-
-class GameModeArguments {
-  final double difficulty;
-
-  GameModeArguments({this.difficulty});
-}
 
 class GameModeWidget extends StatelessWidget {
   GameModeWidget({
     @required this.text,
+    @required this.color,
+    @required this.level,
   });
 
   final String text;
+  final Color color;
+  final double level;
 
   @override
   Widget build(BuildContext context) {
-    Color _getColor() {
-      if (text == 'Hard') {
-        return Colors.red;
-      } else if (text == 'Medium') {
-        return Colors.orangeAccent[700];
-      }
-      return Colors.green;
-    }
-
-    double _getLevel() {
-      if (text == 'Hard') {
-        return 1.8;
-      } else if (text == 'Medium') {
-        return 1.6;
-      }
-      return 1.4;
-    }
-
-    return RaisedButton(
-      onPressed: () {
-        Navigator.pushNamed(context, MineSweeperScreen.routeName,
-            arguments: GameModeArguments(difficulty: _getLevel()));
-      },
-      child: Text(
-        text,
+    return ButtonTheme(
+      minWidth: SizeConfig.screenWidth * .6,
+      height: SizeConfig.blockSizeHorizontal * 17,
+      child: RaisedButton(
+        elevation: 10,
+        onPressed: () {
+          Navigator.pushNamed(context, MineSweeperScreen.routeName,
+              arguments: MineSweeperArguments(
+                difficulty: level,
+                color: color,
+              ));
+        },
+        child: Text(
+          text,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: SizeConfig.safeBlockHorizontal * 7,
+          ),
+        ),
+        colorBrightness: Brightness.dark,
+        splashColor: Colors.white10,
+        color: color,
       ),
-      colorBrightness: Brightness.dark,
-      splashColor: Colors.white10,
-      color: _getColor(),
     );
   }
 }
