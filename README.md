@@ -1,4 +1,4 @@
-# campo
+# mine_sweeper
 
 A new Flutter project.
 
